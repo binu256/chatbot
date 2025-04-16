@@ -1,0 +1,151 @@
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Welcome Section */
+.welcome-card {
+    text-align: center;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0078d4;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* Chat Section */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 90vh; /* previously 90% */
+    width: 90vw; /* added for more horizontal space */
+    max-width: 1000px; /* increased from 600px */
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0078d4;
+    color: #fff;
+    padding: 20px;
+}
+
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.user-message {
+    text-align: right;
+    background: #d1e7ff;
+    color: #333;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    max-width: 80%;
+    align-self: flex-end;
+}
+
+.bot-message {
+    text-align: left;
+    background: #f4f4f4;
+    color: #333;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    max-width: 80%;
+    align-self: flex-start;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background: #f1f1f1;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.button-primary {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #0078d4;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.button-primary:hover {
+    background-color: #005a9e;
+}
+/* Animation keyframes */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOutScale {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* Animation utility classes */
+.fade-in {
+    animation: fadeInScale 0.4s ease-out forwards;
+}
+
+.fade-out {
+    animation: fadeOutScale 0.3s ease-in forwards;
+}

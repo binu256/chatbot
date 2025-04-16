@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DL Deployment Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Section -->
+        <div id="welcome-section" class="welcome-card">
+            <h1 class="title">DL Deployment Chatbot</h1>
+            <p class="subtitle">Ask me anything about Machine Learning, Deep Learning, and AI!</p>
+            <button id="try-chatbot" class="button-primary">Get Started</button>
+        </div>
+
+        <!-- Chat Section -->
+        <div id="chat-section" class="chat-container" style="display: none;">
+            <header class="chat-header">
+                <h2>DL Deployment Chatbot</h2>
+                <button id="close-chat" class="button-secondary">&times;</button>
+            </header>
+            <div id="chat-box" class="chat-box">
+                <!-- Chat messages will dynamically load here -->
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="user-input" placeholder="Type your question..." />
+                <button id="send-btn" class="button-primary">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const welcomeSection = document.getElementById('welcome-section');
+            const chatSection = document.getElementById('chat-section');
+            const tryChatbotBtn = document.getElementById('try-chatbot');
+            const closeChatBtn = document.getElementById('close-chat');
+            const chatBox = document.getElementById('chat-box');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+
+            let isSending = false;
+
+// Show Chat Section with animation
+tryChatbotBtn.addEventListener('click', () => {
+    welcomeSection.classList.add('fade-out');
+    setTimeout(() => {
+        welcomeSection.style.display = 'none';
+        chatSection.style.display = 'flex';
+        chatSection.classList.add('fade-in');
+    }, 300); // match fadeOut duration
+});
+
+// Return to Welcome Section with animation
+closeChatBtn.addEventListener('click', () => {
+    chatSection.classList.remove('fade-in');
+    chatSection.classList.add('fade-out');
+    setTimeout(() => {
+        chatSection.style.display = 'none';
+        welcomeSection.style.display = 'block';
+        welcomeSection.classList.remove('fade-out');
+        welcomeSection.classList.add('fade-in');
+    }, 300); // match fadeOut duration
+});
+
+
+            // Add a message to the chat box
+            function addMessage(content, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = isUser ? 'user-message' : 'bot-message';
+                messageDiv.textContent = content;
+                chatBox.appendChild(messageDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            // Handle user input and bot responses
+            async function sendMessage() {
+                if (isSending) return;
+                const message = userInput.value.trim();
+                if (!message) return;
+
+                isSending = true;
+                addMessage(message, true);
+                userInput.value = '';
+
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message })
+                    });
+                    const data = await response.json();
+                    addMessage(data.response, false);
+                } catch (error) {
+                    console.error('Error:', error);
+                    addMessage('Error: Unable to fetch response.', false);
+                } finally {
+                    isSending = false;
+                }
+            }
+
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+        });
+    </script>
+</body>
+</html>
